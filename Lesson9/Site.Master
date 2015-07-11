@@ -1,0 +1,55 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Lesson9.Site" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Constoso University</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder><!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+</head>
+<body>
+    <nav class="nav navbar-default">
+        <a href="default.aspx" class="navbar-brand">Contosos University</a>
+
+        <ul class="nav navbar-nav">
+            <li><a href="departments.aspx">Departments</a></li>
+            <li><a href="courses.aspx">Courses</a></li>
+            <li><a href="students.aspx">Students</a></li>
+        </ul>
+    </nav>
+    <form id="form1" runat="server" class="form form-horizontal">
+    <div class="container">
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+    <footer class="alert alert-info">
+        @2015 - Comp2007
+    </footer>
+    <!-- Latest compiled and minified JavaScript -->
+
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <!--jquery delete confirmation-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            jQuery("a").filter(function () {
+                return this.innerHTML.indexOf("Delete") == 0;
+            }).click(function () {
+                return confirm("Are you sure you want to delete this record?");
+            });
+        });
+
+   </script>
+
+</body>
+</html>
