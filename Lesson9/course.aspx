@@ -20,12 +20,14 @@
         <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="btn btn-primary"
              OnClick="btnSave_Click" />
     </div>
+    <div></div>
 
     <h2>Students</h2>
     <asp:gridview ID="grdStudents" runat="server" AutoGenerateColumns="false"
          DataKeyNames="EnrollmentID" OnRowDeleting="grdStudents_RowDeleting"
          CssClass="table table-striped table-hover">
         <Columns>
+
             <asp:BoundField DataField="LastName" HeaderText="Last Name" />
             <asp:BoundField DataField="FirstMidName" HeaderText="First Name" />
             <asp:BoundField DataField="Title" HeaderText="Course" />
