@@ -91,6 +91,7 @@
       <LastGenOutput>ContosoModel.cs</LastGenOutput>
     </Content>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\Comp2007Lesson9.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
