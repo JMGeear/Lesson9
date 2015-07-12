@@ -31,15 +31,15 @@ namespace Lesson9
             using (comp2007Entities db = new comp2007Entities())
             {
                 //populate a Course instance with the CourseID from the URL parameter
-                Course c = (from objS in db.Courses
-                            where objS.CourseID == CourseID
-                            select objS).FirstOrDefault();
+                Course c = (from objC in db.Courses
+                            where objC.CourseID == CourseID
+                            select objC).FirstOrDefault();
 
                 //map the student properties to the form controls if we found a match
                 if (c != null)
                 {
                     txtCourseTitle.Text = c.Title;
-                    c.Credits = Convert.ToInt32(txtCredits.Text);
+                    txtCredits.Text = c.Credits.ToString();
 
                 }
 
