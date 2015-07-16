@@ -13,13 +13,13 @@ namespace Lesson9 {
     public partial class course {
         
         /// <summary>
-        /// txtCourseTitle control.
+        /// txtTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCourseTitle;
+        protected global::System.Web.UI.WebControls.TextBox txtTitle;
         
         /// <summary>
         /// txtCredits control.
@@ -31,13 +31,13 @@ namespace Lesson9 {
         protected global::System.Web.UI.WebControls.TextBox txtCredits;
         
         /// <summary>
-        /// RequiredFieldValidator1 control.
+        /// ddlDepartment control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+        protected global::System.Web.UI.WebControls.DropDownList ddlDepartment;
         
         /// <summary>
         /// btnSave control.

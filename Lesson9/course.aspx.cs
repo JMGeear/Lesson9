@@ -15,44 +15,64 @@ namespace Lesson9
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if save wasn't clicked AND we have a StudentID in the url
-            if ((!IsPostBack) && (Request.QueryString.Count > 0))
+            if (!IsPostBack)
             {
-                GetCourse();
+                GetDepartments();
+
+                //get the course if editing
+                if (!String.IsNullOrEmpty(Request.QueryString["CourseID"]))
+                {
+                    GetCourse();
+                }
             }
         }
 
         protected void GetCourse()
         {
-            //populate form with existing student record
-            Int32 CourseID = Convert.ToInt32(Request.QueryString["CourseID"]);
-
+           
             //connect to db via EF
             using (comp2007Entities db = new comp2007Entities())
             {
-                //populate a Course instance with the CourseID from the URL parameter
-                Course c = (from objC in db.Courses
-                            where objC.CourseID == CourseID
-                            select objC).FirstOrDefault();
+                Int32 CourseID = Convert.ToInt32(Request.QueryString["CourseID"]);
 
-                //map the student properties to the form controls if we found a match
-                if (c != null)
-                {
-                    txtCourseTitle.Text = c.Title;
-                    txtCredits.Text = c.Credits.ToString();
+                Course objC = (from c in db.Courses
+                               where c.CourseID == CourseID
+                               select c).FirstOrDefault();
 
-                }
+                //populate the form
+                txtTitle.Text = objC.Title;
+                txtCredits.Text = objC.Credits.ToString();
+                ddlDepartment.SelectedValue = objC.DepartmentID.ToString();
+            
+
+                
+            }
+
+           
+        }
+
+        protected void GetDepartments()
+        {
+            using (comp2007Entities db = new comp2007Entities()) 
+            {
+                var deps = (from d in db.Departments
+                            orderby d.Name
+                            select d);
+
+                ddlDepartment.DataSource = deps.ToList();
+                ddlDepartment.DataBind();
 
                 //enrollments - this code goes in the same method that populates the student form but below the existing code that's already in GetStudent()              
                 var objE = (from en in db.Enrollments
                             join cr in db.Courses on en.CourseID equals cr.CourseID
                             join d in db.Departments on cr.DepartmentID equals d.DepartmentID
                             join s in db.Students on en.StudentID equals s.StudentID
-                            select new { en.EnrollmentID, s.LastName, s.FirstMidName, c.Title, d.Name });
+                            select new { en.EnrollmentID, s.LastName, s.FirstMidName, cr.Title, d.Name });
 
                 grdStudents.DataSource = objE.ToList();
                 grdStudents.DataBind();
             }
+
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -61,35 +81,29 @@ namespace Lesson9
             using (comp2007Entities db = new comp2007Entities())
             {
 
-                //use the Student model to save the new record
-                Course c = new Course();
-                Int32 CourseID = 0;
+                Course objC = new Course();
 
-                //check the querystring for an id so we can determine add / update
-                if (Request.QueryString["CourseID"] != null)
+                if (!String.IsNullOrEmpty(Request.QueryString["CourseID"]))
                 {
-                    //get the id from the url
-                    CourseID = Convert.ToInt32(Request.QueryString["CourseID"]);
-
-                    //get the current student from EF
-                    c = (from objS in db.Courses
-                         where objS.CourseID == CourseID
-                         select objS).FirstOrDefault();
+                    Int32 CourseID = Convert.ToInt32(Request.QueryString["CourseID"]);
+                    objC = (from c in db.Courses
+                            where c.CourseID == CourseID
+                            select c).FirstOrDefault();
                 }
 
-                c.Title = txtCourseTitle.Text;
-                c.Credits = Convert.ToInt32(txtCredits.Text);
+                //populate the course from the input form
+                objC.Title = txtTitle.Text;
+                objC.Credits = Convert.ToInt32(txtCredits.Text);
+                objC.DepartmentID = Convert.ToInt32(ddlDepartment.SelectedValue);
 
-                //call add only if we have no student ID
-                if (CourseID == 0)
+                if (String.IsNullOrEmpty(Request.QueryString["CourseID"]))
                 {
-                    db.Courses.Add(c);
+                    //add
+                    db.Courses.Add(objC);
                 }
 
-                //run the update or insert
+                //save and redirect
                 db.SaveChanges();
-
-                //redirect to the updated students page
                 Response.Redirect("courses.aspx");
             }
         }
